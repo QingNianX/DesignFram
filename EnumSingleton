@@ -1,0 +1,28 @@
+package designPattern.main.enumsingleton;
+
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+public enum EnumSingleton {
+    INSTANCE;
+    public void print() {
+        System.out.println(this.hashCode());
+    }
+}
+
+class EnumTest {
+    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+//        EnumSingleton instance = EnumSingleton.INSTANCE;
+//        EnumSingleton instance1 = EnumSingleton.INSTANCE;
+//        System.out.println(instance == instance1);
+        // // 结果为true
+
+        // 不支持反射，会抛出异常
+        Constructor<EnumSingleton> declaredConstructor = EnumSingleton.class.getDeclaredConstructor();
+        declaredConstructor.setAccessible(true);
+        EnumSingleton instance = declaredConstructor.newInstance("INSTANCE", 0);
+
+
+    }
+}

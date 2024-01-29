@@ -4,13 +4,6 @@ import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-/**
- * @ClassName InnerClassSingletonTest
- * @Descirption TODO
- * @Author xiehuihiu
- * @Date 2024/1/29 20:31
- * @Version 1.0
- **/
 public class InnerClassSingletonTest {
     static final long serialVersionUID = 42L;
 

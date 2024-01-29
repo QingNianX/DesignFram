@@ -1,0 +1,38 @@
+package designPattern.main;
+
+public class LazySingletonTest {
+    public static void main(String[] args) {
+
+//        LazySingleton instance = LazySingleton.getInstance();
+//        LazySingleton lazySingleton = LazySingleton.getInstance();
+//        System.out.println(instance == lazySingleton);
+
+
+        new Thread( () -> {
+            LazySingleton instance = LazySingleton.getInstance();
+            System.out.println(instance);
+        }).start();
+        new Thread( () -> {
+            LazySingleton instance = LazySingleton.getInstance();
+            System.out.println(instance);
+        }).start();
+
+    }
+}
+
+class LazySingleton {
+    private static LazySingleton instance;
+    private LazySingleton() {}
+    public synchronized static LazySingleton getInstance() {
+        if (instance == null) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            instance = new LazySingleton();
+        }
+        return instance;
+    }
+
+}

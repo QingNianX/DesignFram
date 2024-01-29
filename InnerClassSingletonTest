@@ -1,11 +1,19 @@
 package designPattern.main.innerclasssingleton;
 
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+/**
+ * @ClassName InnerClassSingletonTest
+ * @Descirption TODO
+ * @Author xiehuihiu
+ * @Date 2024/1/29 20:31
+ * @Version 1.0
+ **/
 public class InnerClassSingletonTest {
 
-    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException, NoSuchMethodException {
+    public static void main(String[] args) throws  IOException, ClassNotFoundException {
 //        InnerClassSingleton instance = InnerClassSingleton.getInstance();
 //        InnerClassSingleton instance1 = InnerClassSingleton.getInstance();
 //        System.out.println(instance == instance1);
@@ -20,14 +28,25 @@ public class InnerClassSingletonTest {
 //            System.out.println(instance);
 //        }).start();;
 
-        Constructor<InnerClassSingleton> declaredConstructor = InnerClassSingleton.class.getDeclaredConstructor();
+//        Constructor<InnerClassSingleton> declaredConstructor = InnerClassSingleton.class.getDeclaredConstructor();
+//
+//        declaredConstructor.setAccessible(true);
+//        InnerClassSingleton innerClassSingleton = declaredConstructor.newInstance();
+//        InnerClassSingleton instance = innerClassSingleton.getInstance();
+//        System.out.println(innerClassSingleton == instance);
 
-        declaredConstructor.setAccessible(true);
-        InnerClassSingleton innerClassSingleton = declaredConstructor.newInstance();
-        InnerClassSingleton instance = innerClassSingleton.getInstance();
-        System.out.println(innerClassSingleton == instance);
+        InnerClassSingleton innerClassSingleton = InnerClassSingleton.getInstance();
+//        // 新建实例序列化到磁盘
+//        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("testSerializable"));
+//        oos.writeObject(innerClassSingleton);
+//        oos.close();;
+
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream("testSerializable"));
+        InnerClassSingleton o = (InnerClassSingleton) ois.readObject();
+        System.out.println(o == innerClassSingleton);
 
     }
+}
 
 class InnerClassSingleton {
     private static class InnerClassHolder {
@@ -38,7 +57,6 @@ class InnerClassSingleton {
             throw  new RuntimeException("单例不允许多个实例");
         }
     }
-};
     public static InnerClassSingleton getInstance() {
         return InnerClassHolder.instance;
     }

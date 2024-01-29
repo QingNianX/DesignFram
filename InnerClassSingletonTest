@@ -12,6 +12,7 @@ import java.lang.reflect.InvocationTargetException;
  * @Version 1.0
  **/
 public class InnerClassSingletonTest {
+    static final long serialVersionUID = 42L;
 
     public static void main(String[] args) throws  IOException, ClassNotFoundException {
 //        InnerClassSingleton instance = InnerClassSingleton.getInstance();
@@ -48,7 +49,7 @@ public class InnerClassSingletonTest {
     }
 }
 
-class InnerClassSingleton {
+class InnerClassSingleton implements Serializable {
     private static class InnerClassHolder {
         private static InnerClassSingleton instance = new InnerClassSingleton();
     }

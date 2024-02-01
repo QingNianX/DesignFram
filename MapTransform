@@ -1,0 +1,26 @@
+public class MapTransform {
+    public static <K, V, C> Map<K, C> convertMapValue(Map<K, V> map,
+                                                      BiFunction<K, V, C> valueFunction,
+                                                      BinaryOperator<C> mergeFunction) {
+        if (isEmpty(map)) {
+            return new HashMap<>();
+        }
+        return map.entrySet().stream().collect(Collectors.toMap(
+                e -> e.getKey(),
+                e -> valueFunction.apply(e.getKey(), e.getValue()),
+                mergeFunction
+        ));
+    }
+
+    public static <K, V, C> Map<K, C> convertMapValue(Map<K, V> originMap, BiFunction<K, V, C> valueConverter) {
+        return convertMapValue(originMap, valueConverter, pickSecond());
+    }
+
+    public static <T> BinaryOperator<T> pickFirst() {
+        return (k1, k2) -> k1;
+    }
+    public static <T> BinaryOperator<T> pickSecond() {
+        return (k1, k2) -> k2;
+    }
+
+}

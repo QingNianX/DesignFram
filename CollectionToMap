@@ -1,0 +1,30 @@
+public class CollectionToMap {
+    public static <T, K> Map<K, T> toMap(Collection<T> collection, Function<? super T, ? extends K> keyMapper) {
+        return toMap(collection, keyMapper, Function.identity());
+    }
+
+    public static <T, K, V> Map<K, V> toMap(Collection<T> collection,
+                                            Function<? super T, ? extends K> keyFunction,
+                                            Function<? super T, ? extends V> valueFunction) {
+        return toMap(collection, keyFunction, valueFunction, pickSecond());
+    }
+
+    public static <T, K, V> Map<K, V> toMap(Collection<T> collection,
+                                            Function<? super T, ? extends K> keyFunction,
+                                            Function<? super T, ? extends V> valueFunction,
+                                            BinaryOperator<V> mergeFunction) {
+        if (CollectionUtils.isEmpty(collection)) {
+            return new HashMap<>(0);
+        }
+
+        return collection.stream().collect(Collectors.toMap(keyFunction, valueFunction, mergeFunction));
+    }
+
+    public static <T> BinaryOperator<T> pickFirst() {
+        return (k1, k2) -> k1;
+    }
+    public static <T> BinaryOperator<T> pickSecond() {
+        return (k1, k2) -> k2;
+    }
+
+}
